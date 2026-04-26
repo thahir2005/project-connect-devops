@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: content
-          image: YOUR_DOCKER_USERNAME/content-service
+          image: thahirshaik17/content-service
           ports:
             - containerPort: 5001
