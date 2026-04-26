@@ -17,3 +17,8 @@ spec:
           image: thahirshaik17/auth-service
           ports:
             - containerPort: 5000
+          resources:
+            requests:
+              cpu: "100m"
+            limits:
+              cpu: "200m"
