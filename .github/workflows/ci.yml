@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
@@ -6,15 +6,24 @@ on:
       - master
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
       - name: Build Auth Service
-        run: docker build -t auth-service ./auth-service
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/auth-service ./auth-service
+
+      - name: Push Auth Service
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/auth-service
 
       - name: Build Content Service
-        run: docker build -t content-service ./content-service
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/content-service ./content-service
+
+      - name: Push Content Service
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/content-service
